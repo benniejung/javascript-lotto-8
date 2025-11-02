@@ -8,9 +8,11 @@ import { Console } from "@woowacourse/mission-utils";
 class LottoAppController {
   #inputView;
   #outputView;
-  constructor(inputView, outputView) {
+  #lottoResultChecker;
+  constructor(inputView, outputView, lottoResultChecker) {
     this.#inputView = inputView;
     this.#outputView = outputView;
+    this.#lottoResultChecker = lottoResultChecker;
   }
 
   async run() {
@@ -21,8 +23,21 @@ class LottoAppController {
     isValidDivisibleBy1000(lottoPurchaseAmount);
 
     // 로또 발행
-    const myLottos = LottoGenerator.generateLottos(lottoPurchaseAmount / 1000);
+    let myLottos = LottoGenerator.generateLottos(lottoPurchaseAmount / 1000);
     await this.#outputView.printLottos(myLottos);
+
+    let winningNumbers = await this.#inputView.readLottoNumbers();
+    this.#lottoResultChecker.setLottos(winningNumbers);
+
+    let bonusNumber = await this.#inputView.readBonusNumber();
+    this.#lottoResultChecker.setBonusNumber(bonusNumber);
+
+    let result = this.#lottoResultChecker.checkResult(myLottos);
+    this.#outputView.printResult(result);
+
+    const profitRate =
+      this.#lottoResultChecker.calculateProfitRate(lottoPurchaseAmount);
+    this.#outputView.printProfitRate(profitRate);
   }
 }
 
