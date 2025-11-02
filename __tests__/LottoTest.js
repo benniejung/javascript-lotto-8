@@ -62,28 +62,28 @@ describe("당첨 번호 입력 테스트", () => {
   test("당첨 번호에 콤마(,)가 없으면 예외가 발생한다.", () => {
     const input = "123456";
     expect(() => {
-      new LottoResultChecker().setLottos(input);
+      new LottoResultChecker().setWinningNumbers(input);
     }).toThrow("[ERROR] 당첨 번호는 쉼표(,)로 구분되어야 합니다.");
   });
 
   test("당첨 번호는 6개의 숫자로 입력되지 않으면 예외가 발생한다.", () => {
     const input = "1,2,3,4,5,6,7";
     expect(() => {
-      new LottoResultChecker().setLottos(input);
+      new LottoResultChecker().setWinningNumbers(input);
     }).toThrow("[ERROR] 당첨 번호는 6개의 숫자로 입력되어야 합니다.");
   });
 
   test("당첨 번호는 1~45 사이의 숫자로 입력되지 않으면 예외가 발생한다.", () => {
     const input = "1,2,3,4,5,46";
     expect(() => {
-      new LottoResultChecker().setLottos(input);
+      new LottoResultChecker().setWinningNumbers(input);
     }).toThrow("[ERROR] 당첨 번호는 1~45 사이의 숫자로 입력되어야 합니다.");
   });
 
   test("당첨 번호는 중복된 숫자가 있으면 예외가 발생한다.", () => {
     const input = "1,2,3,4,5,5";
     expect(() => {
-      new LottoResultChecker().setLottos(input);
+      new LottoResultChecker().setWinningNumbers(input);
     }).toThrow("[ERROR] 당첨 번호에 중복된 숫자가 있습니다.");
   });
 

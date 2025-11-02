@@ -1,27 +1,34 @@
+const PRIZE_AMOUNTS = {
+  first: 2000000000, // 1등: 6개 일치
+  second: 30000000, // 2등: 5개 일치 + 보너스
+  third: 1500000, // 3등: 5개 일치
+  fourth: 50000, // 4등: 4개 일치
+  fifth: 5000, // 5등: 3개 일치
+};
+
+let prizeTypes = {
+  firstPrizeCount: 0,
+  secondPrizeCount: 0,
+  thirdPrizeCount: 0,
+  fourthPrizeCount: 0,
+  fifthPrizeCount: 0,
+};
+
 /**
  * @description 로또 결과 체커 클래스
  */
-import { Console } from "@woowacourse/mission-utils";
 class LottoResultChecker {
   #winningNumbers;
   #bonusNumber;
   #totalPrizeAmount;
-  #fifthPrizeCount;
-  #fourthPrizeCount;
-  #thirdPrizeCount;
-  #secondPrizeCount;
-  #firstPrizeCount;
 
   constructor() {
+    this.#winningNumbers = [];
+    this.#bonusNumber = 0;
     this.#totalPrizeAmount = 0;
-    this.#fifthPrizeCount = 0;
-    this.#fourthPrizeCount = 0;
-    this.#thirdPrizeCount = 0;
-    this.#secondPrizeCount = 0;
-    this.#firstPrizeCount = 0;
   }
 
-  setLottos(winningNumbers) {
+  setWinningNumbers(winningNumbers) {
     this.#isValidCommaSeparatedNumbers(winningNumbers);
     this.#isValidSixNumbers(winningNumbers);
     this.#isValidNumberInRange(winningNumbers);
@@ -43,55 +50,57 @@ class LottoResultChecker {
       });
 
       const hasBonusNumber = lotto.includes(this.#bonusNumber);
-
-      if (matchCount === 6) {
-        this.#firstPrizeCount++;
-      } else if (matchCount === 5 && hasBonusNumber) {
-        this.#secondPrizeCount++;
-      } else if (matchCount === 5) {
-        this.#thirdPrizeCount++;
-      } else if (matchCount === 4) {
-        this.#fourthPrizeCount++;
-      } else if (matchCount === 3) {
-        this.#fifthPrizeCount++;
-      }
+      this.#updatePrizeCount(matchCount, hasBonusNumber);
     });
 
     // 당첨금액 계산
     this.calculateTotalPrizeAmount();
 
     return {
-      firstPrizeCount: this.#firstPrizeCount,
-      secondPrizeCount: this.#secondPrizeCount,
-      thirdPrizeCount: this.#thirdPrizeCount,
-      fourthPrizeCount: this.#fourthPrizeCount,
-      fifthPrizeCount: this.#fifthPrizeCount,
+      firstPrizeCount: prizeTypes.firstPrizeCount,
+      secondPrizeCount: prizeTypes.secondPrizeCount,
+      thirdPrizeCount: prizeTypes.thirdPrizeCount,
+      fourthPrizeCount: prizeTypes.fourthPrizeCount,
+      fifthPrizeCount: prizeTypes.fifthPrizeCount,
     };
+  }
+
+  #updatePrizeCount(matchCount, hasBonusNumber) {
+    switch (matchCount) {
+      case 6:
+        prizeTypes.firstPrizeCount++;
+        break;
+      case 5:
+        if (hasBonusNumber) {
+          prizeTypes.secondPrizeCount++;
+        } else {
+          prizeTypes.thirdPrizeCount++;
+        }
+        break;
+      case 4:
+        prizeTypes.fourthPrizeCount++;
+        break;
+      case 3:
+        prizeTypes.fifthPrizeCount++;
+        break;
+    }
   }
 
   calculateTotalPrizeAmount() {
-    const PRIZE_AMOUNTS = {
-      first: 2000000000, // 1등: 6개 일치
-      second: 30000000, // 2등: 5개 일치 + 보너스
-      third: 1500000, // 3등: 5개 일치
-      fourth: 50000, // 4등: 4개 일치
-      fifth: 5000, // 5등: 3개 일치
-    };
-
     this.#totalPrizeAmount =
-      this.#firstPrizeCount * PRIZE_AMOUNTS.first +
-      this.#secondPrizeCount * PRIZE_AMOUNTS.second +
-      this.#thirdPrizeCount * PRIZE_AMOUNTS.third +
-      this.#fourthPrizeCount * PRIZE_AMOUNTS.fourth +
-      this.#fifthPrizeCount * PRIZE_AMOUNTS.fifth;
+      prizeTypes.firstPrizeCount * PRIZE_AMOUNTS.first +
+      prizeTypes.secondPrizeCount * PRIZE_AMOUNTS.second +
+      prizeTypes.thirdPrizeCount * PRIZE_AMOUNTS.third +
+      prizeTypes.fourthPrizeCount * PRIZE_AMOUNTS.fourth +
+      prizeTypes.fifthPrizeCount * PRIZE_AMOUNTS.fifth;
   }
 
-  calculateProfitRate(totalPurchaseAmount) {
+  calculateProfitRate(purchaseAmount) {
     // 수익률 = (총 당첨금액 / 총 구매금액) × 100
-    return (this.#totalPrizeAmount / totalPurchaseAmount) * 100;
+    return (this.#totalPrizeAmount / purchaseAmount) * 100;
   }
 
-  getLottos() {
+  getWinningNumbers() {
     return this.#winningNumbers;
   }
   getBonusNumber() {
