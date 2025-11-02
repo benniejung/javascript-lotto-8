@@ -1,4 +1,5 @@
 import Lotto from "../src/Lotto";
+import LottoResultChecker from "../src/model/LottoResultChecker.js";
 import {
   isValidIntegerPurchaseAmount,
   isValidDivisibleBy1000,
@@ -44,4 +45,43 @@ describe("로또 구입 금액 입력 테스트", () => {
       isValidDivisibleBy1000(input);
     }).toThrow("[ERROR] 로또 구입 금액은 1000원으로 나누어 떨어져야 합니다.");
   });
+});
+
+describe("당첨 번호 입력 테스트", () => {
+  test("당첨 번호에 콤마(,)가 없으면 예외가 발생한다.", () => {
+    const input = "123456";
+    expect(() => {
+      new LottoResultChecker(input);
+    }).toThrow("[ERROR] 당첨 번호는 쉼표(,)로 구분되어야 합니다.");
+  });
+
+  test("당첨 번호는 6개의 숫자로 입력되지 않으면 예외가 발생한다.", () => {
+    const input = "1,2,3,4,5,6";
+    expect(() => {
+      new LottoResultChecker(input);
+    }).toThrow("[ERROR] 당첨 번호는 6개의 숫자로 입력되어야 합니다.");
+  });
+
+  test("당첨 번호는 1~45 사이의 숫자로 입력되지 않으면 예외가 발생한다.", () => {
+    const input = "1,2,3,4,5,46";
+    expect(() => {
+      new LottoResultChecker(input);
+    }).toThrow("[ERROR] 당첨 번호는 1~45 사이의 숫자로 입력되어야 합니다.");
+  });
+
+  test("당첨 번호는 중복된 숫자가 있으면 예외가 발생한다.", () => {
+    const input = "1,2,3,4,5,5";
+    expect(() => {
+      new LottoResultChecker(input);
+    }).toThrow("[ERROR] 당첨 번호에 중복된 숫자가 있습니다.");
+  });
+
+  test("보너스 번호는 1~45 사이의 숫자로 입력되지 않으면 예외가 발생한다.", () => {
+    const input = 46;
+    expect(() => {
+      new LottoResultChecker(input);
+    }).toThrow("[ERROR] 보너스 번호는 1~45 사이의 숫자로 입력되어야 합니다.");
+  });
+
+  // 보너스 번호 - 콤마(,)나 커스텀 분리자로 구분되어있을 경우
 });
