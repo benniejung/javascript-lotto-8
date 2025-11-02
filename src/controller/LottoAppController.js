@@ -1,7 +1,7 @@
 import {
   isValidDivisibleBy1000,
   isValidIntegerPurchaseAmount,
-} from "../utils/Validator.js";
+} from "../utils/InputPurchaseValidator.js";
 import LottoGenerator from "../LottoGenerator.js";
 import { Console } from "@woowacourse/mission-utils";
 

@@ -3,7 +3,7 @@ import LottoResultChecker from "../src/model/LottoResultChecker.js";
 import {
   isValidIntegerPurchaseAmount,
   isValidDivisibleBy1000,
-} from "../src/utils/Validator.js";
+} from "../src/utils/InputPurchaseValidator.js";
 
 /**
  * @description Lotto 클래스 테스트
