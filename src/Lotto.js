@@ -1,3 +1,6 @@
+/**
+ * 로또 번호를 관리하는 클래스
+ */
 class Lotto {
   #numbers;
 
