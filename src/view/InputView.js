@@ -1,16 +1,16 @@
 import { Console } from "@woowacourse/mission-utils";
 
 class InputView {
-  readLottoPurchaseAmount() {
-    return Console.readLineAsync("구입금액을 입력해 주세요.");
+  async readLottoPurchaseAmount() {
+    return Console.readLineAsync("구입금액을 입력해 주세요.\n");
   }
 
-  readLottoNumbers() {
-    return Console.readLineAsync("당첨 번호를 입력해 주세요.");
+  async readLottoNumbers() {
+    return Console.readLineAsync("당첨 번호를 입력해 주세요.\n");
   }
 
-  readBonusNumber() {
-    return Console.readLineAsync("보너스 번호를 입력해 주세요.");
+  async readBonusNumber() {
+    return Console.readLineAsync("보너스 번호를 입력해 주세요.\n");
   }
 }
 
