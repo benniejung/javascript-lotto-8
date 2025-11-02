@@ -30,7 +30,7 @@ describe("로또 구입 금액 입력 테스트", () => {
     "잘못된 입력 ($description)이 들어올 경우 예외가 발생한다.",
     ({ input }) => {
       expect(() => {
-        isValidIntegerPurchaseAmount(Number(input));
+        isValidIntegerPurchaseAmount(input);
       }).toThrow("[ERROR] 로또 구입 금액은 정수로만 입력이 가능합니다.");
     }
   );

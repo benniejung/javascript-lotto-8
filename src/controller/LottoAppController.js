@@ -11,7 +11,9 @@ class LottoAppController {
   }
 
   async run() {
-    let lottoPurchaseAmount = await this.#inputView.readLottoPurchaseAmount();
+    let lottoPurchaseAmount = Number(
+      await this.#inputView.readLottoPurchaseAmount()
+    );
     isValidIntegerPurchaseAmount(lottoPurchaseAmount);
     isValidDivisibleBy1000(lottoPurchaseAmount);
   }
