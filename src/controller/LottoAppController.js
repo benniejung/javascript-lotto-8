@@ -1,3 +1,8 @@
+import {
+  isValidDivisibleBy1000,
+  isValidIntegerPurchaseAmount,
+} from "../utils/Validator.js";
+
 class LottoAppController {
   #inputView;
 
@@ -7,6 +12,8 @@ class LottoAppController {
 
   async run() {
     let lottoPurchaseAmount = await this.#inputView.readLottoPurchaseAmount();
+    isValidIntegerPurchaseAmount(lottoPurchaseAmount);
+    isValidDivisibleBy1000(lottoPurchaseAmount);
   }
 }
 
