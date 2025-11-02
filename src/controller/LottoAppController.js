@@ -16,28 +16,32 @@ class LottoAppController {
   }
 
   async run() {
-    let lottoPurchaseAmount = Number(
-      await this.#inputView.readLottoPurchaseAmount()
-    );
-    isValidIntegerPurchaseAmount(lottoPurchaseAmount);
-    isValidDivisibleBy1000(lottoPurchaseAmount);
+    try {
+      let lottoPurchaseAmount = Number(
+        await this.#inputView.readLottoPurchaseAmount()
+      );
+      isValidIntegerPurchaseAmount(lottoPurchaseAmount);
+      isValidDivisibleBy1000(lottoPurchaseAmount);
 
-    // 로또 발행
-    let myLottos = LottoGenerator.generateLottos(lottoPurchaseAmount / 1000);
-    await this.#outputView.printLottos(myLottos);
+      // 로또 발행
+      let myLottos = LottoGenerator.generateLottos(lottoPurchaseAmount / 1000);
+      await this.#outputView.printLottos(myLottos);
 
-    let winningNumbers = await this.#inputView.readLottoNumbers();
-    this.#lottoResultChecker.setLottos(winningNumbers);
+      let winningNumbers = await this.#inputView.readLottoNumbers();
+      this.#lottoResultChecker.setLottos(winningNumbers);
 
-    let bonusNumber = await this.#inputView.readBonusNumber();
-    this.#lottoResultChecker.setBonusNumber(bonusNumber);
+      let bonusNumber = await this.#inputView.readBonusNumber();
+      this.#lottoResultChecker.setBonusNumber(bonusNumber);
 
-    let result = this.#lottoResultChecker.checkResult(myLottos);
-    this.#outputView.printResult(result);
+      let result = this.#lottoResultChecker.checkResult(myLottos);
+      this.#outputView.printResult(result);
 
-    const profitRate =
-      this.#lottoResultChecker.calculateProfitRate(lottoPurchaseAmount);
-    this.#outputView.printProfitRate(profitRate);
+      const profitRate =
+        this.#lottoResultChecker.calculateProfitRate(lottoPurchaseAmount);
+      this.#outputView.printProfitRate(profitRate);
+    } catch (error) {
+      Console.print(error.message);
+    }
   }
 }
 
