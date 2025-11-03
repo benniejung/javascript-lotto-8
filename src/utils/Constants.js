@@ -29,4 +29,12 @@ const ERROR_MESSAGE = {
     "[ERROR] 보너스 번호는 1~45 사이의 숫자로 입력되어야 합니다.",
 };
 
-export { INPUT_MESSAGE, OUTPUT_MESSAGE, ERROR_MESSAGE };
+const PRIZE_AMOUNTS = {
+  first: 2000000000, // 1등: 6개 일치
+  second: 30000000, // 2등: 5개 일치 + 보너스
+  third: 1500000, // 3등: 5개 일치
+  fourth: 50000, // 4등: 4개 일치
+  fifth: 5000, // 5등: 3개 일치
+};
+
+export { INPUT_MESSAGE, OUTPUT_MESSAGE, ERROR_MESSAGE, PRIZE_AMOUNTS };

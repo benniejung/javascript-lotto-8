@@ -36,10 +36,10 @@ class LottoAppController {
 
       // 당첨 내역 출력
       let result = this.#lottoResultChecker.checkResult(myLottos);
-      this.#outputView.printResult(result);
+      this.#outputView.printResult(result.prizeTypes);
 
       // 수익률 계산 및 출력
-      const profitRate =
+      let profitRate =
         this.#lottoResultChecker.calculateProfitRate(lottoPurchaseAmount);
       this.#outputView.printProfitRate(profitRate);
     } catch (error) {

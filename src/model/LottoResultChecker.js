@@ -1,10 +1,4 @@
-const PRIZE_AMOUNTS = {
-  first: 2000000000, // 1등: 6개 일치
-  second: 30000000, // 2등: 5개 일치 + 보너스
-  third: 1500000, // 3등: 5개 일치
-  fourth: 50000, // 4등: 4개 일치
-  fifth: 5000, // 5등: 3개 일치
-};
+import { PRIZE_AMOUNTS, ERROR_MESSAGE } from "../utils/Constants.js";
 
 let prizeTypes = {
   firstPrizeCount: 0,
@@ -15,7 +9,7 @@ let prizeTypes = {
 };
 
 /**
- * @description 로또 결과 체커 클래스
+ * @description 로또 결과 체커 클래스: 로또 자동 채점기 역할
  */
 class LottoResultChecker {
   #winningNumbers;
@@ -41,6 +35,7 @@ class LottoResultChecker {
   }
 
   checkResult(lottos) {
+    // 당첨 번호와 보너스 번호를 비교하여 당첨 내역 계산
     lottos.forEach((lotto) => {
       let matchCount = 0;
       lotto.forEach((number) => {
@@ -57,11 +52,7 @@ class LottoResultChecker {
     this.calculateTotalPrizeAmount();
 
     return {
-      firstPrizeCount: prizeTypes.firstPrizeCount,
-      secondPrizeCount: prizeTypes.secondPrizeCount,
-      thirdPrizeCount: prizeTypes.thirdPrizeCount,
-      fourthPrizeCount: prizeTypes.fourthPrizeCount,
-      fifthPrizeCount: prizeTypes.fifthPrizeCount,
+      prizeTypes: prizeTypes,
     };
   }
 
@@ -109,37 +100,33 @@ class LottoResultChecker {
 
   #isValidCommaSeparatedNumbers(lottos) {
     if (!lottos.includes(",")) {
-      throw new Error("[ERROR] 당첨 번호는 쉼표(,)로 구분되어야 합니다.");
+      throw new Error(ERROR_MESSAGE.INVALID_NUMBER_FORMAT);
     }
   }
   #isValidSixNumbers(lottos) {
     lottos = lottos.split(",");
     if (lottos.length !== 6) {
-      throw new Error("[ERROR] 당첨 번호는 6개의 숫자로 입력되어야 합니다.");
+      throw new Error(ERROR_MESSAGE.INVALID_SIX_NUMBERS);
     }
   }
   #isValidNumberInRange(lottos) {
     lottos = lottos.split(",").map(Number);
     lottos.forEach((lotto) => {
       if (lotto < 1 || lotto > 45) {
-        throw new Error(
-          "[ERROR] 당첨 번호는 1~45 사이의 숫자로 입력되어야 합니다."
-        );
+        throw new Error(ERROR_MESSAGE.INVALID_NUMBER_RANGE);
       }
     });
   }
   #isValidDuplicateNumbers(lottos) {
     lottos = lottos.split(",").map(Number);
     if (lottos.length !== new Set(lottos).size) {
-      throw new Error("[ERROR] 당첨 번호에 중복된 숫자가 있습니다.");
+      throw new Error(ERROR_MESSAGE.INVALID_DUPLICATE_NUMBER);
     }
   }
 
   #isValidBonusNumberInRange(bonusNumber) {
     if (Number(bonusNumber) < 1 || Number(bonusNumber) > 45) {
-      throw new Error(
-        "[ERROR] 보너스 번호는 1~45 사이의 숫자로 입력되어야 합니다."
-      );
+      throw new Error(ERROR_MESSAGE.INVALID_BONUS_NUMBER_RANGE);
     }
   }
 }
