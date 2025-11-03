@@ -19,6 +19,7 @@ const ERROR_MESSAGE = {
     "[ERROR] 로또 구입 금액은 정수로만 입력이 가능합니다.",
   INVALID_DIVISIBLE_BY_1000_PURCHASE_AMOUNT:
     "[ERROR] 로또 구입 금액은 1000원으로 나누어 떨어져야 합니다.",
+  INVALID_NOT_EMPTY: "[ERROR] 입력값은 비어있을 수 없습니다.",
   INVALID_SIX_NUMBERS: "[ERROR] 당첨 번호는 6개의 숫자로 입력되어야 합니다.",
   INVALID_BONUS_NUMBER: "[ERROR] 보너스 번호는 1개의 숫자로 입력되어야 합니다.",
   INVALID_DUPLICATE_NUMBER: "[ERROR] 당첨 번호에 중복된 숫자가 있습니다.",

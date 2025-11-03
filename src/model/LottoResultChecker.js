@@ -23,14 +23,11 @@ class LottoResultChecker {
   }
 
   setWinningNumbers(winningNumbers) {
-    this.#isValidCommaSeparatedNumbers(winningNumbers);
-    this.#isValidSixNumbers(winningNumbers);
-    this.#isValidNumberInRange(winningNumbers);
-    this.#isValidDuplicateNumbers(winningNumbers);
+    this.#validateWinningNumbers(winningNumbers);
     this.#winningNumbers = winningNumbers.split(",").map(Number);
   }
   setBonusNumber(bonusNumber) {
-    this.#isValidBonusNumberInRange(bonusNumber);
+    this.#validateBonusNumber(bonusNumber);
     this.#bonusNumber = Number(bonusNumber);
   }
 
@@ -98,6 +95,19 @@ class LottoResultChecker {
     return this.#bonusNumber;
   }
 
+  #validateWinningNumbers(winningNumbers) {
+    this.#isValidNotEmpty(winningNumbers);
+    this.#isValidCommaSeparatedNumbers(winningNumbers);
+    this.#isValidSixNumbers(winningNumbers);
+    this.#isValidNumberInRange(winningNumbers);
+    this.#isValidDuplicateNumbers(winningNumbers);
+  }
+
+  #validateBonusNumber(bonusNumber) {
+    this.#isValidNotEmpty(bonusNumber);
+    this.#isValidBonusNumberInRange(bonusNumber);
+  }
+
   #isValidCommaSeparatedNumbers(lottos) {
     if (!lottos.includes(",")) {
       throw new Error(ERROR_MESSAGE.INVALID_NUMBER_FORMAT);
@@ -127,6 +137,11 @@ class LottoResultChecker {
   #isValidBonusNumberInRange(bonusNumber) {
     if (Number(bonusNumber) < 1 || Number(bonusNumber) > 45) {
       throw new Error(ERROR_MESSAGE.INVALID_BONUS_NUMBER_RANGE);
+    }
+  }
+  #isValidNotEmpty(value) {
+    if (value === "") {
+      throw new Error(ERROR_MESSAGE.INVALID_NOT_EMPTY);
     }
   }
 }

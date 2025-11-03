@@ -52,13 +52,25 @@ describe("로또 구입 금액 입력 테스트", () => {
     }).toThrow(ERROR_MESSAGE.INVALID_DIVISIBLE_BY_1000_PURCHASE_AMOUNT);
   });
 
-  // 보강 - 아무것도 입력안했을 경우
+  test("아무것도 입력안했을 경우 예외가 발생한다.", () => {
+    const input = "";
+    expect(() => {
+      isValidIntegerPurchaseAmount(input);
+    }).toThrow(ERROR_MESSAGE.INVALID_INTEGER_PURCHASE_AMOUNT);
+  });
 });
 
 /**
  * @description 당첨 번호 입력 테스트
  */
 describe("당첨 번호 입력 테스트", () => {
+  test("당첨 번호는 비어있을 수 없다.", () => {
+    const input = "";
+    expect(() => {
+      new LottoResultChecker().setWinningNumbers(input);
+    }).toThrow(ERROR_MESSAGE.INVALID_NOT_EMPTY);
+  });
+
   test("당첨 번호에 콤마(,)가 없으면 예외가 발생한다.", () => {
     const input = "123456";
     expect(() => {
@@ -94,5 +106,10 @@ describe("당첨 번호 입력 테스트", () => {
     }).toThrow(ERROR_MESSAGE.INVALID_BONUS_NUMBER_RANGE);
   });
 
-  // 보너스 번호 - 콤마(,)나 커스텀 분리자로 구분되어있을 경우
+  test("보너스 번호는 비어있을 수 없다.", () => {
+    const input = "";
+    expect(() => {
+      new LottoResultChecker().setBonusNumber(input);
+    }).toThrow(ERROR_MESSAGE.INVALID_NOT_EMPTY);
+  });
 });

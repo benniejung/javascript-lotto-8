@@ -14,3 +14,9 @@ export function isValidDivisibleBy1000(lottoPurchaseAmount) {
     throw new Error(ERROR_MESSAGE.INVALID_DIVISIBLE_BY_1000_PURCHASE_AMOUNT);
   }
 }
+
+export function isValidNotEmpty(lottoPurchaseAmount) {
+  if (lottoPurchaseAmount === "") {
+    throw new Error(ERROR_MESSAGE.INVALID_NOT_EMPTY);
+  }
+}
