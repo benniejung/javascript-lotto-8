@@ -1,4 +1,12 @@
 import { PRIZE_AMOUNTS, ERROR_MESSAGE } from "../utils/Constants.js";
+import {
+  isValidNotEmpty,
+  isValidCommaSeparatedNumbers,
+  isValidSixNumbers,
+  isValidNumberInRange,
+  isValidDuplicateNumbers,
+  isValidBonusNumberInRange,
+} from "../utils/LottoResultCheckerValidator.js";
 
 let prizeTypes = {
   firstPrizeCount: 0,
@@ -96,53 +104,16 @@ class LottoResultChecker {
   }
 
   #validateWinningNumbers(winningNumbers) {
-    this.#isValidNotEmpty(winningNumbers);
-    this.#isValidCommaSeparatedNumbers(winningNumbers);
-    this.#isValidSixNumbers(winningNumbers);
-    this.#isValidNumberInRange(winningNumbers);
-    this.#isValidDuplicateNumbers(winningNumbers);
+    isValidNotEmpty(winningNumbers);
+    isValidCommaSeparatedNumbers(winningNumbers);
+    isValidSixNumbers(winningNumbers);
+    isValidNumberInRange(winningNumbers);
+    isValidDuplicateNumbers(winningNumbers);
   }
 
   #validateBonusNumber(bonusNumber) {
-    this.#isValidNotEmpty(bonusNumber);
-    this.#isValidBonusNumberInRange(bonusNumber);
-  }
-
-  #isValidCommaSeparatedNumbers(lottos) {
-    if (!lottos.includes(",")) {
-      throw new Error(ERROR_MESSAGE.INVALID_NUMBER_FORMAT);
-    }
-  }
-  #isValidSixNumbers(lottos) {
-    lottos = lottos.split(",");
-    if (lottos.length !== 6) {
-      throw new Error(ERROR_MESSAGE.INVALID_SIX_NUMBERS);
-    }
-  }
-  #isValidNumberInRange(lottos) {
-    lottos = lottos.split(",").map(Number);
-    lottos.forEach((lotto) => {
-      if (lotto < 1 || lotto > 45) {
-        throw new Error(ERROR_MESSAGE.INVALID_NUMBER_RANGE);
-      }
-    });
-  }
-  #isValidDuplicateNumbers(lottos) {
-    lottos = lottos.split(",").map(Number);
-    if (lottos.length !== new Set(lottos).size) {
-      throw new Error(ERROR_MESSAGE.INVALID_DUPLICATE_NUMBER);
-    }
-  }
-
-  #isValidBonusNumberInRange(bonusNumber) {
-    if (Number(bonusNumber) < 1 || Number(bonusNumber) > 45) {
-      throw new Error(ERROR_MESSAGE.INVALID_BONUS_NUMBER_RANGE);
-    }
-  }
-  #isValidNotEmpty(value) {
-    if (value === "") {
-      throw new Error(ERROR_MESSAGE.INVALID_NOT_EMPTY);
-    }
+    isValidNotEmpty(bonusNumber);
+    isValidBonusNumberInRange(bonusNumber);
   }
 }
 
